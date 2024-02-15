@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\ProfissionalController;
 use App\Http\Controllers\ServicoController;
+use App\Http\Middleware\IsAuthenticated;
+use App\Http\Middleware\SetSanctumGuard;
 use App\Models\Administrador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -285,3 +288,10 @@ Route::get('adm/payment/all/inactive', [PagamentoController::class, 'pagamentoRe
 Route::post('adm/payment/name', [PagamentoController::class, 'pagamentoNome']);
 
 Route::delete('adm/payment/delete/{id}', [PagamentoController::class, 'pagamentoExcluir']);
+
+//admin controller
+
+Route::post('/create',[AdminController::class,'store']);
+Route::post('/login',[AdminController::class, 'login']);
+Route::get('admin/teste',[AdminController::class, 'verificaUsuarioLogado'])->middleware([
+    'auth:sanctum',SetSanctumGuard::class, IsAuthenticated::class]);
